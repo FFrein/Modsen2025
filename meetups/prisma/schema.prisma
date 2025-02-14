@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+//https://www.prisma.io/docs/orm/prisma-schema/data-model/models
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,6 +13,11 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ORGANIZER
 }
 
 model Meetups {
@@ -35,4 +42,5 @@ model Users {
   id           Int       @id @default(autoincrement())
   username     String
   password     String
+  role         Role
 }
