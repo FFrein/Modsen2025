@@ -1,3 +1,6 @@
 [user]
     name = "FFrein"
     email = "pesetsky2003g@gmail.com"
+
+  git config user.email "pesetsky2003g@gmail.com"
+  git config user.name "FFrein"
