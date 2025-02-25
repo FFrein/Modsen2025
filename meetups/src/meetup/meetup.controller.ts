@@ -22,7 +22,12 @@ export class MeetupController {
   @Post()
   create(@Request() req, @Body() createMeetupDto: CreateMeetupDto) {
     const user = req.user;
-    return this.meetupService.create({ ...createMeetupDto, users: user.id });
+    return this.meetupService.create({
+      ...createMeetupDto,
+      users: {
+        connect: { id: user.id },
+      },
+    });
   }
 
   @Get()
