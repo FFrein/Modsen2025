@@ -12,12 +12,12 @@ export class UsersService {
     return this.prisma.users.create({ data });
   }
 
-  async findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<Array<User>> {
+    return this.prisma.users.findMany();
   }
 
-  async findOne(username: string) {
-    return { username, password: 'bcrypt' };
+  async findOne(username: string): Promise<User | null> {
+    return this.prisma.users.findFirst({ where: { username: username } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
