@@ -1,18 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Patch,
+  Post,
   Request,
+  UseGuards,
 } from '@nestjs/common';
-import { MeetupService } from './meetup.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { MeetupService } from './meetup.service';
 
 @Controller('meetup')
 export class MeetupController {
