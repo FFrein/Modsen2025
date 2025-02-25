@@ -4,7 +4,7 @@ export enum UserRole {
 }
 export class User {
   id: number;
-  role: UserRole;
+  role?: UserRole;
   username: string;
   password: string;
 }
