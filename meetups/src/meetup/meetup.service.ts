@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
+import { Prisma } from '@prisma/client';
+import { Meetup } from './entities/meetup.entity';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class MeetupService {
-  create(createMeetupDto: CreateMeetupDto) {
-    return 'This action adds a new meetup';
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: Prisma.MeetupsCreateInput): Promise<Meetup> {
+    return this.prisma.meetups.create({ data });
   }
 
-  findAll() {
-    return `This action returns all meetup`;
+  async findAll(): Promise<Array<Meetup>> {
+    return this.prisma.meetups.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} meetup`;
+  async findOne(id: number): Promise<Meetup | null> {
+    return this.prisma.meetups.findFirst({ where: { id: id } });
   }
 
-  update(id: number, updateMeetupDto: UpdateMeetupDto) {
-    return `This action updates a #${id} meetup`;
+  async update(
+    id: number,
+    data: Prisma.MeetupsUpdateInput,
+  ): Promise<Meetup | null> {
+    return this.prisma.meetups.update({ where: { id: id }, data });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} meetup`;
+  async remove(id: number) {
+    return this.prisma.meetups.delete({ where: { id: id } });
   }
 }
