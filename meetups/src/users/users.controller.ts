@@ -10,16 +10,24 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { bcrypt } from 'bcrypt';
+import { PasswordService } from 'src/auth/password.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly passwordService: PasswordService,
+  ) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    const password = bcrypt;
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const hashedPassword = await this.passwordService.hashPassword(
+      createUserDto.password,
+    );
+    return this.usersService.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
   }
 
   @Get()
