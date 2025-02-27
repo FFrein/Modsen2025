@@ -14,13 +14,17 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { MeetupService } from './meetup.service';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Role } from '@prisma/client';
 
 @Controller('meetup')
 export class MeetupController {
   constructor(private readonly meetupService: MeetupService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
+  @Roles(Role.creator)
   create(@Request() req, @Body() createMeetupDto: CreateMeetupDto) {
     const user = req.user;
     return this.meetupService.create({
@@ -43,13 +47,29 @@ export class MeetupController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMeetupDto: UpdateMeetupDto) {
-    return this.meetupService.update(+id, updateMeetupDto);
+  update(
+    @Request() req,
+    @Param('id') id: number,
+    @Body() updateMeetupDto: UpdateMeetupDto,
+  ) {
+    this.meetupService.checkOwner(req.user.id, id).then((isOwner) => {
+      if (isOwner) {
+        return this.meetupService.update(+id, updateMeetupDto);
+      } else {
+        throw Error('Вы не можете редактировать эту запись');
+      }
+    });
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.meetupService.remove(+id);
+  remove(@Request() req, @Param('id') id: number) {
+    this.meetupService.checkOwner(req.user.id, id).then((isOwner) => {
+      if (isOwner) {
+        return this.meetupService.remove(+id);
+      } else {
+        throw Error('Вы не можете удалить эту запись');
+      }
+    });
   }
 }

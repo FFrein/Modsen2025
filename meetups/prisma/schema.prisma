@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  user
+  creator
+}
+
 model Meetups {
   id           Int       @id @default(autoincrement())
   name         String
@@ -37,6 +42,7 @@ model Users {
   id       Int        @id @default(autoincrement())
   username String     @unique
   password String
+  role     Role     
 
   meetups  Meetups[]
 }

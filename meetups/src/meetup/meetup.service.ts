@@ -32,4 +32,11 @@ export class MeetupService {
   async remove(id: number) {
     return this.prisma.meetups.delete({ where: { id: id } });
   }
+
+  async checkOwner(userId: number, meetupId: number) {
+    return (
+      (await this.prisma.meetups.findFirst({ where: { id: meetupId } }))
+        ?.userId === userId
+    );
+  }
 }
