@@ -35,6 +35,11 @@ export class MeetupController {
     });
   }
 
+  /*
+  Переработать запрос на получение списка митапов так, чтобы с его помощью можно 
+  было осуществить поиск по митапам, отфильтровать их, отсортировать. 
+  Результат также должен быть разбит на страницы. 
+  */
   @Get()
   findAll() {
     return this.meetupService.findAll();
@@ -48,30 +53,39 @@ export class MeetupController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.creator)
   @Patch(':id')
-  update(
+  async update(
     @Request() req,
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateMeetupDto: UpdateMeetupDto,
   ) {
-    this.meetupService.checkOwner(req.user.id, id).then((isOwner) => {
-      if (isOwner) {
-        return this.meetupService.update(+id, updateMeetupDto);
-      } else {
-        throw Error('Вы не можете редактировать эту запись');
-      }
-    });
+    const intId = parseInt(id);
+
+    if (isNaN(intId)) {
+      throw new Error('Некорректный идентификатор');
+    }
+    const isOwner = await this.meetupService.checkOwner(req.user.id, intId);
+    if (isOwner) {
+      return this.meetupService.update(+id, updateMeetupDto);
+    } else {
+      throw Error('Вы не можете редактировать эту запись');
+    }
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.creator)
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: number) {
-    this.meetupService.checkOwner(req.user.id, id).then((isOwner) => {
-      if (isOwner) {
-        return this.meetupService.remove(+id);
-      } else {
-        throw Error('Вы не можете удалить эту запись');
-      }
-    });
+  async remove(@Request() req, @Param('id') id: string) {
+    const intId = parseInt(id);
+
+    if (isNaN(intId)) {
+      throw new Error('Некорректный идентификатор');
+    }
+
+    const isOwner = await this.meetupService.checkOwner(req.user.id, intId);
+    if (isOwner) {
+      return this.meetupService.remove(+id);
+    } else {
+      throw Error('Вы не можете удалить эту запись');
+    }
   }
 }
