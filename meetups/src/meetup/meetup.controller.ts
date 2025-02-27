@@ -45,7 +45,8 @@ export class MeetupController {
     return this.meetupService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.creator)
   @Patch(':id')
   update(
     @Request() req,
@@ -61,7 +62,8 @@ export class MeetupController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.creator)
   @Delete(':id')
   remove(@Request() req, @Param('id') id: number) {
     this.meetupService.checkOwner(req.user.id, id).then((isOwner) => {
