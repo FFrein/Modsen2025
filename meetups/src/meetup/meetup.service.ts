@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { Meetup } from './entities/meetup.entity';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class MeetupService {
@@ -14,8 +15,20 @@ export class MeetupService {
     return this.prisma.meetups.create({ data });
   }
 
-  async findAll(): Promise<Array<Meetup>> {
-    return this.prisma.meetups.findMany();
+  async findAll(query: PaginationDto): Promise<Array<Meetup>> {
+    const { sortBy, sortOrder } = query;
+
+    const page = Number(query.page) || 1;
+    const limit = Number(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const order = sortBy && sortOrder ? { [sortBy]: sortOrder } : {};
+
+    return this.prisma.meetups.findMany({
+      skip: skip,
+      take: limit,
+      orderBy: order,
+    });
   }
 
   async findOne(id: number): Promise<Meetup | null> {

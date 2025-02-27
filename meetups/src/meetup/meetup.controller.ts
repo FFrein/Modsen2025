@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -17,6 +18,7 @@ import { MeetupService } from './meetup.service';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Role } from '@prisma/client';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('meetup')
 export class MeetupController {
@@ -35,14 +37,9 @@ export class MeetupController {
     });
   }
 
-  /*
-  Переработать запрос на получение списка митапов так, чтобы с его помощью можно 
-  было осуществить поиск по митапам, отфильтровать их, отсортировать. 
-  Результат также должен быть разбит на страницы. 
-  */
   @Get()
-  findAll() {
-    return this.meetupService.findAll();
+  findAll(@Query() query: PaginationDto) {
+    return this.meetupService.findAll(query);
   }
 
   @Get(':id')
