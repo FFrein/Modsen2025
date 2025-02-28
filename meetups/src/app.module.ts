@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { MeetupModule } from './meetup/meetup.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
-  imports: [UsersModule, MeetupModule, AuthModule, PrismaModule],
+  imports: [UsersModule, MeetupModule, AuthModule, PrismaModule, TagsModule],
   controllers: [AppController],
   providers: [AppService],
 })
