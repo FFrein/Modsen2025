@@ -19,11 +19,23 @@ import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Role } from '@prisma/client';
 import { PaginationDto } from './dto/pagination.dto';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('meetup')
 @Controller('meetup')
 export class MeetupController {
   constructor(private readonly meetupService: MeetupService) {}
 
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Создание митапа' })
+  @ApiResponse({ status: 200, description: 'Успешное создание' })
+  @ApiResponse({ status: 401, description: 'Не авторизован' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles(Role.creator)
@@ -37,16 +49,27 @@ export class MeetupController {
     });
   }
 
+  @ApiOperation({ summary: 'Получение митапов' })
+  @ApiResponse({ status: 200, description: 'Успешное получение митапов' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @Get()
   findAll(@Query() query: PaginationDto) {
     return this.meetupService.findAll(query);
   }
 
+  @ApiOperation({ summary: 'Получение митапа по id' })
+  @ApiResponse({ status: 200, description: 'Успешное получение митапа' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.meetupService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Обновление митапа' })
+  @ApiResponse({ status: 200, description: 'Успешное обновление' })
+  @ApiResponse({ status: 401, description: 'Не авторизован' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.creator)
   @Patch(':id')
@@ -68,6 +91,11 @@ export class MeetupController {
     }
   }
 
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Удаление митапа' })
+  @ApiResponse({ status: 200, description: 'Успешное удаление' })
+  @ApiResponse({ status: 401, description: 'Не авторизован' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.creator)
   @Delete(':id')

@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 import { Role } from '@prisma/client';
@@ -11,7 +11,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsNotEmpty()
   id: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     enum: Role,
     required: false,
     description: 'Роль пользователя',

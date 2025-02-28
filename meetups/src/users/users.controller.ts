@@ -1,18 +1,23 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  Patch,
   Post,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { PasswordService } from 'src/auth/password.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -20,6 +25,9 @@ export class UsersController {
     private readonly passwordService: PasswordService,
   ) {}
 
+  @ApiOperation({ summary: 'Создание пользователя' })
+  @ApiResponse({ status: 200, description: 'Успешное обновление' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const hashedPassword = await this.passwordService.hashPassword(
@@ -31,6 +39,18 @@ export class UsersController {
     });
   }
 
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Просмотр профиля' })
+  @ApiResponse({ status: 200, description: 'Успешное получение провиля' })
+  @ApiResponse({ status: 401, description: 'Не авторизован' })
+  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
+  /*
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -45,4 +65,5 @@ export class UsersController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
+   */
 }
