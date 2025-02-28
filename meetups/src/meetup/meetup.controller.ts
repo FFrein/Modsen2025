@@ -10,21 +10,21 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-
-import { CreateMeetupDto } from './dto/create-meetup.dto';
-import { UpdateMeetupDto } from './dto/update-meetup.dto';
-import { MeetupService } from './meetup.service';
-import { Roles } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Role } from '@prisma/client';
-import { PaginationDto } from './dto/pagination.dto';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Role } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+
+import { CreateMeetupDto } from './dto/create-meetup.dto';
+import { PaginationDto } from './dto/pagination.dto';
+import { UpdateMeetupDto } from './dto/update-meetup.dto';
+import { MeetupService } from './meetup.service';
 
 @ApiTags('meetup')
 @Controller('meetup')

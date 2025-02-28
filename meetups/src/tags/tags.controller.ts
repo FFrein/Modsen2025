@@ -1,15 +1,13 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Post,
   Request,
+  UseGuards,
 } from '@nestjs/common';
-import { TagsService } from './tags.service';
-import { CreateTagDto } from './dto/create-tag.dto';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -19,6 +17,9 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { MeetupService } from 'src/meetup/meetup.service';
+
+import { CreateTagDto } from './dto/create-tag.dto';
+import { TagsService } from './tags.service';
 
 @ApiTags('tags')
 @Controller('tags')

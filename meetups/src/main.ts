@@ -1,11 +1,10 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { config } from 'dotenv';
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { config } from 'dotenv';
 
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './http-exception.filter';
-import { ValidationPipe } from '@nestjs/common';
 config();
 
 async function bootstrap() {

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-import { Meetup } from './entities/meetup.entity';
 import { PaginationDto } from './dto/pagination.dto';
+import { Meetup } from './entities/meetup.entity';
 
 @Injectable()
 export class MeetupService {

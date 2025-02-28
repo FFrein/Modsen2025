@@ -3,13 +3,9 @@ import {
   Controller,
   Get,
   Post,
-  UseGuards,
   Request,
+  UseGuards,
 } from '@nestjs/common';
-import { PasswordService } from 'src/auth/password.service';
-
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -17,6 +13,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { PasswordService } from 'src/auth/password.service';
+
+import { CreateUserDto } from './dto/create-user.dto';
+import { UsersService } from './users.service';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
