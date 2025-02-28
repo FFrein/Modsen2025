@@ -36,10 +36,18 @@ export class PaginationDto {
   sortOrder?: 'asc' | 'desc';
 
   @ApiPropertyOptional({
-    example: 'не реализованно',
-    description: 'Пользователь по которому фильтруем',
+    example: 'name',
+    description: 'Поле по которому фильтруем',
   })
   @IsOptional()
   @IsString()
-  ownerName?: string;
+  filterBy?: string;
+
+  @ApiPropertyOptional({
+    example: 'Meetup1',
+    description: 'Значение поля фильтрации',
+  })
+  @IsOptional()
+  @IsString()
+  filterValue?: string;
 }

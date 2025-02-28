@@ -14,7 +14,7 @@ export class MeetupService {
   }
 
   async findAll(query: PaginationDto): Promise<Array<Meetup>> {
-    const { sortBy, sortOrder } = query;
+    const { sortBy, sortOrder, filterBy, filterValue } = query;
 
     const page = Number(query.page) || 1;
     const limit = Number(query.limit) || 10;
@@ -22,10 +22,28 @@ export class MeetupService {
 
     const order = sortBy && sortOrder ? { [sortBy]: sortOrder } : {};
 
+    let where = {};
+    if (filterBy && filterValue) {
+      if (filterBy === 'tag') {
+        where = {
+          meetupTags: {
+            some: {
+              tag: { equals: filterValue },
+            },
+          },
+        };
+      } else {
+        where = { [filterBy]: filterValue };
+      }
+    }
     return this.prisma.meetups.findMany({
       skip: skip,
       take: limit,
       orderBy: order,
+      where,
+      include: {
+        meetupTags: true,
+      },
     });
   }
 
