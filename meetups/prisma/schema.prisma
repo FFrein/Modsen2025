@@ -36,6 +36,8 @@ model MeetupTags {
   tag          String
 
   meetup       Meetups   @relation(fields: [meetupId], references: [id])
+
+  @@unique([meetupId, tag])
 }
 
 model Users {
