@@ -22,7 +22,7 @@ export class CreateMeetupDto {
     example: '2013-02-14T13:15:03-08:00',
     description: 'Время проведения',
   })
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   date: Date;
 
