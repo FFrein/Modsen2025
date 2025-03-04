@@ -14,8 +14,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/role/roles.guard';
 import { MeetupService } from 'src/meetup/meetup.service';
 
 import { CreateTagDto } from './dto/create-tag.dto';

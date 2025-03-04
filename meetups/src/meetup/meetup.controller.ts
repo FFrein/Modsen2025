@@ -17,9 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt/jwt-auth.guard';
+import { Roles } from 'src/auth/guards/role/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/role/roles.guard';
 
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { PaginationDto } from './dto/pagination.dto';

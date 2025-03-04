@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { PasswordService } from './password.service';
+import { userDto } from './dto/payloadDto';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
     private readonly passwordService: PasswordService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<userDto | null> {
+    //console.log('AuthService', 'validateUser');
     const user = await this.usersService.findOne(username);
     if (!user) return null;
 
@@ -26,15 +28,16 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: userDto) {
+    //console.log('AuthService', 'login', user);
     const payload = { username: user.username, sub: user.id, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '3m',
+      expiresIn: process.env.JWT_ACCESS_EXPIRES || '60s',
     });
 
     const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: '6d',
+      expiresIn: process.env.JWT_REFRESH_EXPIRES || '120s',
       secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
     });
 
@@ -45,17 +48,18 @@ export class AuthService {
   }
 
   async refreshToken(token: string) {
+    //console.log('AuthService', 'refreshToken');
     try {
       const payload = this.jwtService.verify(token, {
         secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
       });
       const user = await this.usersService.findOne(payload.username);
       if (!user) {
-        throw new Error('Пользователь не найден');
+        throw new UnauthorizedException('Пользователь не найден');
       }
       return this.login(user);
     } catch (error) {
-      throw new Error('Невалидный refresh-токен');
+      throw new UnauthorizedException('Невалидный refresh-токен');
     }
   }
 }

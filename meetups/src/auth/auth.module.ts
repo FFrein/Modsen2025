@@ -5,9 +5,8 @@ import { UsersService } from 'src/users/users.service';
 
 import { UsersModule } from '../users/users.module';
 import { AuthService } from './auth.service';
-import { jwtConstants } from './constants';
-import { JwtStrategy } from './jwt.strategy';
-import { LocalStrategy } from './local.strategy';
+import { JwtStrategy } from './guards/jwt/jwt.strategy';
+import { LocalStrategy } from './guards/local/local.strategy';
 import { PasswordService } from './password.service';
 
 @Module({
@@ -15,8 +14,8 @@ import { PasswordService } from './password.service';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '360s' },
+      secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
+      signOptions: { expiresIn: '60s' },
     }),
   ],
   providers: [

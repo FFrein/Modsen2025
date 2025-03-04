@@ -17,8 +17,8 @@ import {
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthLoginDto } from './auth/dto/AuthLoginDto';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { LocalAuthGuard } from './auth/local-auth.guard';
+import { JwtAuthGuard } from './auth/guards/jwt/jwt-auth.guard';
+import { LocalAuthGuard } from './auth/guards/local/local-auth.guard';
 import { RefreshTokenDto } from './auth/dto/refresh-token.dto';
 
 @ApiTags('app')
