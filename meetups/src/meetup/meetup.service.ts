@@ -14,6 +14,7 @@ export class MeetupService {
   }
 
   async findAll(query: PaginationDto): Promise<Array<Meetup>> {
+    //TODO тут возможно параметры некорректы, некоторые надо передават ьв совокупности
     const { sortBy, sortOrder, filterBy, filterValue } = query;
 
     const page = Number(query.page) || 1;

@@ -38,7 +38,7 @@ export class UsersController {
       password: hashedPassword,
     });
   }
-
+  //TODO вынести в enum статусы ответов
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Просмотр профиля' })
   @ApiResponse({ status: 200, description: 'Успешное получение провиля' })

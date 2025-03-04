@@ -1,91 +1,69 @@
-## Docker
+## Описание проекта
 
-```bash
-# build container
-$ docker build -t modsen-2025-meetups .
-# start container
-$ docker run -d -p 3000:3000 --name modsen-2025-meetups modsen2025
-# stop container
-$ docker stop modsen-2025-meetups
-# delete containder
-$ docker rm modsen-2025-meetups
+Проект представляет собой RESTful API для управления митапами. Реализована функциональность получения списка митапов, поиска, фильтрации, сортировки, а также аутентификация пользователей с разделением ролей.
 
-# или
-$ docker-compose up --build -d
-```
+## Основной функционал
 
-## Description
+1. Получение списка всех митапов.
+2. Получение определённого митапа по его ID.
+3. Регистрация нового митапа.
+4. Изменение информации о существующем митапе.
+5. Удаление митапа.
+6. Информация о митапе
+7. Название / тема.
+8. Описание.
+9. Набор тегов / ключевых слов.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Cтек технологий
 
-## Project setup
+- Node.js
+- NestJs
+- prisma
+- bcrypt
+- passport
 
-```bash
-$ npm install
-```
+## Дополнительно
 
-## Compile and run the project
+Валидация DTO .
+Реализация фильтрации, сортировки и пагинации при получении списка митапов.
+Документирование API через Swagger (первая версия уже реализована).
+Система аутентификации на основе PassportJS:
+Регистрация и авторизация пользователей с JWT Access Token.
+Поддержка JWT Refresh Token.
+Разделение пользователей на два типа: обычные пользователи и организаторы митапов (только организаторы могут создавать и редактировать митапы).
 
-```bash
-# development
-$ npm run start
+## Установка и запуск
 
-# watch mode
-$ npm run start:dev
+1. Установка зависимостей
 
-# production mode
-$ npm run start:prod
-```
+   1. npm install
 
-## Run tests
+2. Запуск проекта
 
-```bash
-# unit tests
-$ npm run test
+   1. Docker
 
-# e2e tests
-$ npm run test:e2e
+   ```bash
+   # build container
+   $ docker build -t modsen-2025-meetups .
+   # start container
+   $ docker run -d -p 3000:3000 --name modsen-2025-meetups modsen2025
+   # stop container
+   $ docker stop modsen-2025-meetups
+   # delete containder
+   $ docker rm modsen-2025-meetups
+   # или
+   $ docker-compose up --build -d
+   ```
 
-# test coverage
-$ npm run test:cov
-```
+   2. Обычный запуск
 
-## Deployment
+   ```bash
+   # development
+   $ npm run start
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+   # watch mode
+   $ npm run start:dev
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+   # production mode
+   $ npm run start:prod
+   ```
