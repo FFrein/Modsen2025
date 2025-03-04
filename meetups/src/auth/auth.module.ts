@@ -14,7 +14,7 @@ import { PasswordService } from './password.service';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
+      secret: process.env.JWT_ACCESS_SECRET || 'default_access_secret',
       signOptions: { expiresIn: '60s' },
     }),
   ],

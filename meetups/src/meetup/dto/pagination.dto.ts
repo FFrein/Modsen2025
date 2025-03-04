@@ -1,28 +1,19 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class PaginationDto {
-  @ApiPropertyOptional({
-    example: '1',
-    description: 'Страница',
-  })
+  @ApiPropertyOptional({ example: '1', description: 'Страница' })
   @IsOptional()
   @IsString()
   page: string;
 
-  @ApiPropertyOptional({
-    example: '2',
-    description: 'Количество',
-  })
+  @ApiPropertyOptional({ example: '2', description: 'Количество' })
   @IsOptional()
   @IsString()
   limit: string;
 
-  @ApiPropertyOptional({
-    example: 'name',
-    description: 'Поле сортировки',
-  })
-  @IsOptional()
+  @ApiPropertyOptional({ example: 'name', description: 'Поле сортировки' })
+  @ValidateIf((o) => o.sortOrder !== undefined)
   @IsString()
   sortBy?: string;
 
@@ -31,7 +22,7 @@ export class PaginationDto {
     description: 'Порядок сортировки',
     enum: ['asc', 'desc'],
   })
-  @ApiPropertyOptional()
+  @ValidateIf((o) => o.sortBy !== undefined)
   @IsString()
   sortOrder?: 'asc' | 'desc';
 
@@ -39,7 +30,7 @@ export class PaginationDto {
     example: 'name',
     description: 'Поле по которому фильтруем',
   })
-  @IsOptional()
+  @ValidateIf((o) => o.filterValue !== undefined)
   @IsString()
   filterBy?: string;
 
@@ -47,7 +38,7 @@ export class PaginationDto {
     example: 'Meetup1',
     description: 'Значение поля фильтрации',
   })
-  @IsOptional()
+  @ValidateIf((o) => o.filterBy !== undefined)
   @IsString()
   filterValue?: string;
 }
