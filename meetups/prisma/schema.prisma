@@ -27,6 +27,8 @@ model Meetups {
   userId       Int
 
   meetupTags   MeetupTags[]
+  userRecords   UserRecords[]
+
   users        Users   @relation(fields: [userId], references: [id])
 }
 
@@ -47,4 +49,16 @@ model Users {
   role     Role     
 
   meetups  Meetups[]
+  records  UserRecords[]
+}
+
+model UserRecords {
+  id           Int       @id @default(autoincrement())
+  meetupId     Int
+  userId       Int
+
+  meetup       Meetups   @relation(fields: [meetupId], references: [id])
+  user         Users     @relation(fields: [userId], references: [id])
+
+  @@unique([meetupId, userId])
 }
