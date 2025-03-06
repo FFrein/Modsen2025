@@ -20,6 +20,7 @@ import { MeetupService } from 'src/meetup/meetup.service';
 
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TagsService } from './tags.service';
+import { EApiResponses } from 'src/consts/swagger';
 
 @ApiTags('tags')
 @Controller('tags')
@@ -31,9 +32,10 @@ export class TagsController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Создание тэга' })
-  @ApiResponse({ status: 200, description: 'Успешное создание' })
-  @ApiResponse({ status: 401, description: 'Не авторизован' })
-  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.NOT_PERMISSION)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   async create(@Request() req, @Body() createTagDto: CreateTagDto) {
@@ -56,9 +58,10 @@ export class TagsController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Поличение списка тэгов записи' })
-  @ApiResponse({ status: 200, description: 'Успешное получение' })
-  @ApiResponse({ status: 401, description: 'Не авторизован' })
-  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.NOT_PERMISSION)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -72,9 +75,10 @@ export class TagsController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Удаление тэга' })
-  @ApiResponse({ status: 200, description: 'Успешное удаление' })
-  @ApiResponse({ status: 401, description: 'Не авторизован' })
-  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.NOT_PERMISSION)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

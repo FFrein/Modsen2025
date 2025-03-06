@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   Post,
   Request,
   UnauthorizedException,
@@ -14,25 +13,41 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthLoginDto } from './auth/dto/AuthLoginDto';
-import { JwtAuthGuard } from './auth/guards/jwt/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/guards/local/local-auth.guard';
 import { RefreshTokenDto } from './auth/dto/refresh-token.dto';
-
-@ApiTags('app')
+import { CreateUserDto } from './users/dto/create-user.dto';
+import { PasswordService } from './auth/password.service';
+import { UsersService } from './users/users.service';
+import { EApiResponses } from './consts/swagger';
+@ApiTags('auth')
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService,
     private authService: AuthService,
+    private passwordService: PasswordService,
+    private usersService: UsersService,
   ) {}
 
+  @ApiOperation({ summary: 'Создание пользователя' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
+  @Post('auth/register')
+  async create(@Body() createUserDto: CreateUserDto) {
+    const hashedPassword = await this.passwordService.hashPassword(
+      createUserDto.password,
+    );
+    return this.usersService.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+  }
+
   @ApiOperation({ summary: 'Авторизация' })
-  @ApiResponse({ status: 200, description: 'Успешная авториация' })
-  @ApiResponse({ status: 401, description: 'Не авторизован' })
-  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Body() authLoginDto: AuthLoginDto, @Request() req) {
@@ -40,8 +55,9 @@ export class AppController {
   }
 
   @ApiOperation({ summary: 'Обновление токенов' })
-  @ApiResponse({ status: 200, description: 'Новые токены' })
-  @ApiResponse({ status: 401, description: 'Невалидный refresh-токен' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @Post('auth/refresh')
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
     try {
@@ -53,9 +69,9 @@ export class AppController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Выход из аккаунта' })
-  @ApiResponse({ status: 200, description: 'Успешный выход' })
-  @ApiResponse({ status: 401, description: 'Не авторизован' })
-  @ApiResponse({ status: 500, description: 'Ошибка' })
+  @ApiResponse(EApiResponses.SUCCESS)
+  @ApiResponse(EApiResponses.NOT_AUTH)
+  @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(LocalAuthGuard)
   @Post('auth/logout')
   async logout(@Request() req) {
