@@ -16,8 +16,13 @@ datasource db {
 }
 
 enum Role {
+<<<<<<< HEAD
   USER
   ORGANIZER
+=======
+  user
+  creator
+>>>>>>> temp-branch
 }
 
 model Meetups {
@@ -26,8 +31,12 @@ model Meetups {
   description  String
   date         DateTime
   place        String
+  userId       Int
 
-  MeetupTags   MeetupTags[]
+  meetupTags   MeetupTags[]
+  userRecords  UserRecords[]
+
+  users        Users   @relation(fields: [userId], references: [id])
 }
 
 model MeetupTags {
@@ -36,11 +45,26 @@ model MeetupTags {
   tag          String
 
   meetup       Meetups   @relation(fields: [meetupId], references: [id])
+
+  @@unique([meetupId, tag])
 }
 
 model Users {
+  id       Int        @id @default(autoincrement())
+  username String     @unique
+  password String
+  role     Role     
+
+  meetups  Meetups[]
+  records  UserRecords[]
+}
+
+model UserRecords {
   id           Int       @id @default(autoincrement())
-  username     String
-  password     String
-  role         Role
+
+  meetupId     Int
+  meetup       Meetups   @relation(fields: [meetupId], references: [id])
+
+  userId       Int
+  users        Users     @relation(fields: [userId], references: [id])
 }
