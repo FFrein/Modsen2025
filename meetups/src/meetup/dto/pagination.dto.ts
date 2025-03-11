@@ -13,7 +13,7 @@ export class PaginationDto {
   limit: string;
 
   @ApiPropertyOptional({ example: 'name', description: 'Поле сортировки' })
-  @ValidateIf((o) => o.sortOrder !== undefined)
+  @ValidateIf((o: PaginationDto) => o.sortOrder !== undefined)
   @IsString()
   sortBy?: string;
 
@@ -22,7 +22,7 @@ export class PaginationDto {
     description: 'Порядок сортировки',
     enum: ['asc', 'desc'],
   })
-  @ValidateIf((o) => o.sortBy !== undefined)
+  @ValidateIf((o: PaginationDto) => o.sortBy !== undefined)
   @IsString()
   sortOrder?: 'asc' | 'desc';
 
@@ -30,7 +30,7 @@ export class PaginationDto {
     example: 'name',
     description: 'Поле по которому фильтруем',
   })
-  @ValidateIf((o) => o.filterValue !== undefined)
+  @ValidateIf((o: PaginationDto) => o.filterValue !== undefined)
   @IsString()
   filterBy?: string;
 
@@ -38,7 +38,7 @@ export class PaginationDto {
     example: 'Meetup1',
     description: 'Значение поля фильтрации',
   })
-  @ValidateIf((o) => o.filterBy !== undefined)
+  @ValidateIf((o: PaginationDto) => o.filterBy !== undefined)
   @IsString()
   filterValue?: string;
 }

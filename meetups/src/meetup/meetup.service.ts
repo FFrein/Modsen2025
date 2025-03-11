@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 import { PaginationDto } from './dto/pagination.dto';
 import { Meetup } from './entities/meetup.entity';
@@ -14,7 +14,6 @@ export class MeetupService {
   }
 
   async findAll(query: PaginationDto): Promise<Array<Meetup>> {
-    //TODO тут возможно параметры некорректы, некоторые надо передават ьв совокупности
     const { sortBy, sortOrder, filterBy, filterValue } = query;
 
     const page = Number(query.page) || 1;

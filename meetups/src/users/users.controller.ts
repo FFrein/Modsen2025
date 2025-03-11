@@ -1,25 +1,21 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt/jwt-auth.guard';
-import { EApiResponses } from 'src/consts/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
+import { EApiResponses } from '../consts/swagger';
+import { AuthRequestDto } from '../dto/requestDto';
+
+import { User } from './entities/user.entity';
+
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor() {}
 
-  //TODO вынести в enum статусы ответов
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Просмотр профиля' })
   @ApiResponse(EApiResponses.SUCCESS)
@@ -27,24 +23,7 @@ export class UsersController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthRequestDto): User {
     return req.user;
   }
-
-  /*
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':username')
-  findOne(@Param('username') username: string) {
-    return this.usersService.findOne(username);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-   */
 }

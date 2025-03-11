@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+//https://www.prisma.io/docs/orm/prisma-schema/data-model/models
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -27,7 +29,7 @@ model Meetups {
   userId       Int
 
   meetupTags   MeetupTags[]
-  userRecords   UserRecords[]
+  userRecords  UserRecords[]
 
   users        Users   @relation(fields: [userId], references: [id])
 }
@@ -54,11 +56,10 @@ model Users {
 
 model UserRecords {
   id           Int       @id @default(autoincrement())
+
   meetupId     Int
-  userId       Int
-
   meetup       Meetups   @relation(fields: [meetupId], references: [id])
-  user         Users     @relation(fields: [userId], references: [id])
 
-  @@unique([meetupId, userId])
+  userId       Int
+  users        Users     @relation(fields: [userId], references: [id])
 }

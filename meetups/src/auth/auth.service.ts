@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
 import { UsersService } from '../users/users.service';
-import { PasswordService } from './password.service';
 import { userDto } from './dto/payloadDto';
+import { PasswordService } from './password.service';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,6 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<userDto | null> {
-    //console.log('AuthService', 'validateUser');
     const user = await this.usersService.findOne(username);
     if (!user) return null;
 
@@ -28,8 +28,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: userDto) {
-    //console.log('AuthService', 'login', user);
+  login(user: userDto) {
     const payload = { username: user.username, sub: user.id, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -48,7 +47,6 @@ export class AuthService {
   }
 
   async refreshToken(token: string) {
-    //console.log('AuthService', 'refreshToken');
     try {
       const payload = this.jwtService.verify(token, {
         secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
@@ -58,7 +56,7 @@ export class AuthService {
         throw new UnauthorizedException('Пользователь не найден');
       }
       return this.login(user);
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Невалидный refresh-токен');
     }
   }

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UserRecord } from './entities/record.entity';
 import { Prisma } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+
+import { UserRecord } from './entities/record.entity';
 
 @Injectable()
 export class RecordsService {

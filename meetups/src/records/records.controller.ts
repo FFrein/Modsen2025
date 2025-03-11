@@ -1,18 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Request,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
-import { RecordsService } from './records.service';
-import { CreateRecordDto } from './dto/create-record.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { EApiResponses } from 'src/consts/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
+import { EApiResponses } from '../consts/swagger';
+import { AuthRequestDto } from '../dto/requestDto';
+
+import { CreateRecordDto } from './dto/create-record.dto';
+import { RecordsService } from './records.service';
 
 @Controller('records')
 export class RecordsController {
@@ -25,12 +27,15 @@ export class RecordsController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Request() req, @Body() createRecordDto: CreateRecordDto) {
+  create(
+    @Request() req: AuthRequestDto,
+    @Body() createRecordDto: CreateRecordDto,
+  ) {
     return this.recordsService.create({
       meetup: {
         connect: { id: createRecordDto.meetupId },
       },
-      user: {
+      users: {
         connect: { id: req.user.id },
       },
     });
@@ -43,7 +48,7 @@ export class RecordsController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard)
   @Get('/my')
-  findOne(@Request() req) {
+  findOne(@Request() req: AuthRequestDto) {
     return this.recordsService.findMy(req.user.id);
   }
 
@@ -54,7 +59,7 @@ export class RecordsController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
+  async remove(@Request() req: AuthRequestDto, @Param('id') id: string) {
     const intId = parseInt(id);
 
     if (isNaN(intId)) {

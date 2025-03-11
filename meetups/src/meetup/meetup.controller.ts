@@ -17,15 +17,16 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/guards/jwt/jwt-auth.guard';
-import { Roles } from 'src/auth/guards/role/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/role/roles.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
+import { Roles } from '../auth/guards/role/roles.decorator';
+import { RolesGuard } from '../auth/guards/role/roles.guard';
+import { EApiResponses } from '../consts/swagger';
+import { AuthRequestDto } from '../dto/requestDto';
 
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { MeetupService } from './meetup.service';
-import { EApiResponses } from 'src/consts/swagger';
 
 @ApiTags('meetup')
 @Controller('meetup')
@@ -41,7 +42,10 @@ export class MeetupController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles(Role.creator)
-  create(@Request() req, @Body() createMeetupDto: CreateMeetupDto) {
+  create(
+    @Request() req: AuthRequestDto,
+    @Body() createMeetupDto: CreateMeetupDto,
+  ) {
     const user = req.user;
     return this.meetupService.create({
       ...createMeetupDto,
@@ -77,7 +81,7 @@ export class MeetupController {
   @Roles(Role.creator)
   @Patch(':id')
   async update(
-    @Request() req,
+    @Request() req: AuthRequestDto,
     @Param('id') id: string,
     @Body() updateMeetupDto: UpdateMeetupDto,
   ) {
@@ -103,7 +107,7 @@ export class MeetupController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.creator)
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
+  async remove(@Request() req: AuthRequestDto, @Param('id') id: string) {
     const intId = parseInt(id);
 
     if (isNaN(intId)) {
