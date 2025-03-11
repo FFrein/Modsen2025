@@ -8,5 +8,5 @@ export class CreateRecordDto {
   })
   @IsNumber()
   @IsNotEmpty()
-  meetupId: number;
+  meetupId!: number;
 }

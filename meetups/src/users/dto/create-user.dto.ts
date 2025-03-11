@@ -9,7 +9,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @ApiProperty({
     example: 'password',
@@ -17,7 +17,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 
   @ApiProperty({
     example: 'creator',
@@ -26,5 +26,5 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  role: Role;
+  role!: Role;
 }

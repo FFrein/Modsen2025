@@ -1,5 +1,5 @@
 export class Tag {
-  id: number;
-  meetupId: number;
-  tag: string;
+  id!: number;
+  meetupId!: number;
+  tag!: string;
 }

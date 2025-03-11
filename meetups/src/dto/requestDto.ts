@@ -7,5 +7,5 @@ export class AuthRequestDto extends Request {
   @ApiProperty({ description: 'User identifier' })
   @IsNotEmpty()
   @IsString()
-  user: User;
+  user!: User;
 }

@@ -5,12 +5,12 @@ export class PaginationDto {
   @ApiPropertyOptional({ example: '1', description: 'Страница' })
   @IsOptional()
   @IsString()
-  page: string;
+  page!: string;
 
   @ApiPropertyOptional({ example: '2', description: 'Количество' })
   @IsOptional()
   @IsString()
-  limit: string;
+  limit!: string;
 
   @ApiPropertyOptional({ example: 'name', description: 'Поле сортировки' })
   @ValidateIf((o: PaginationDto) => o.sortOrder !== undefined)

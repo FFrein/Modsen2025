@@ -8,7 +8,7 @@ export class CreateMeetupDto {
   })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     example: 'Митап о митапах',
@@ -16,7 +16,7 @@ export class CreateMeetupDto {
   })
   @IsString()
   @IsNotEmpty()
-  description: string;
+  description!: string;
 
   @ApiProperty({
     example: '2013-02-14T13:15:03-08:00',
@@ -24,7 +24,7 @@ export class CreateMeetupDto {
   })
   @IsString()
   @IsNotEmpty()
-  date: Date;
+  date!: Date;
 
   @ApiProperty({
     example: 'Место',
@@ -32,5 +32,5 @@ export class CreateMeetupDto {
   })
   @IsString()
   @IsNotEmpty()
-  place: string;
+  place!: string;
 }

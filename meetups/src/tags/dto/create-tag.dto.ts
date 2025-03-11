@@ -8,12 +8,12 @@ export class CreateTagDto {
   })
   @IsInt()
   @IsNotEmpty()
-  meetupId: number;
+  meetupId!: number;
   @ApiProperty({
     example: 'Тэг1',
     description: 'Название тэга',
   })
   @IsString()
   @IsNotEmpty()
-  tag: string;
+  tag!: string;
 }

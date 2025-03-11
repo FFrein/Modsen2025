@@ -9,7 +9,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ description: 'ID пользователя', example: 1 })
   @IsNumber()
   @IsNotEmpty()
-  id: number;
+  id!: number;
 
   @ApiPropertyOptional({
     enum: Role,
@@ -18,5 +18,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   @IsEnum(Role)
   @IsOptional()
-  role: Role;
+  role!: Role;
 }

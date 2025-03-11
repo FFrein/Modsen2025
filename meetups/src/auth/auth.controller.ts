@@ -76,7 +76,7 @@ export class AuthController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @UseGuards(LocalAuthGuard)
   @Post('/logout')
-  logout(@Request() req) {
-    return req.logout();
+  logout(@Request() req: AuthRequestDto) {
+    return req; //.logout();
   }
 }

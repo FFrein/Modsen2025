@@ -8,7 +8,7 @@ export class AuthLoginDto {
   })
   @IsString()
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @ApiProperty({
     example: 'password',
@@ -16,5 +16,5 @@ export class AuthLoginDto {
   })
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }
