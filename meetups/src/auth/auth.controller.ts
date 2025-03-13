@@ -37,6 +37,12 @@ export class AuthController {
   @ApiResponse(EApiResponses.SERVER_ERROR)
   @Post('/register')
   async create(@Body() createUserDto: CreateUserDto) {
+    const userExist = await this.usersService.findOne(createUserDto.username);
+
+    if(userExist){
+      throw Error("User exist")
+    }
+
     const hashedPassword = await this.passwordService.hashPassword(
       createUserDto.password,
     );
