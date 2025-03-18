@@ -74,15 +74,4 @@ export class AuthController {
       throw new UnauthorizedException('Невалидный refresh-токен');
     }
   }
-
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Выход из аккаунта' })
-  @ApiResponse(EApiResponses.SUCCESS)
-  @ApiResponse(EApiResponses.NOT_AUTH)
-  @ApiResponse(EApiResponses.SERVER_ERROR)
-  @UseGuards(LocalAuthGuard)
-  @Post('/logout')
-  logout(@Request() req: AuthRequestDto) {
-    return req; //.logout();
-  }
 }

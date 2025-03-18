@@ -33,7 +33,7 @@ export class MeetupService {
           },
         };
       } else {
-        where = { [filterBy]: filterValue };
+        where = { [filterBy]: Number(filterValue) || filterValue };
       }
     }
     return this.prisma.meetups.findMany({
@@ -45,6 +45,10 @@ export class MeetupService {
         meetupTags: true,
       },
     });
+  }
+
+  async findMy(id: number): Promise<Array<Meetup>> {
+    return this.prisma.meetups.findMany({ where: { userId:id} });
   }
 
   async findOne(id: number): Promise<Meetup | null> {

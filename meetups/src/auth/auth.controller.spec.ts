@@ -101,5 +101,4 @@ describe('AuthController2', () => {
       expect(authController.login(mockRequest,mockAuthRequest)).toMatchObject(result);
     });
   });
-
 });
