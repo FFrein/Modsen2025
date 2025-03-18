@@ -9,10 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+
 import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
 import { EApiResponses } from '../consts/swagger';
 import { AuthRequestDto } from '../dto/requestDto';
-
 import { CreateRecordDto } from './dto/create-record.dto';
 import { RecordsService } from './records.service';
 

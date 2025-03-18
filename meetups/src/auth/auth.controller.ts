@@ -6,15 +6,10 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { EApiResponses } from '../consts/swagger';
 import { AuthRequestDto } from '../dto/requestDto';
-
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
@@ -39,8 +34,8 @@ export class AuthController {
   async create(@Body() createUserDto: CreateUserDto) {
     const userExist = await this.usersService.findOne(createUserDto.username);
 
-    if(userExist){
-      throw Error("User exist")
+    if (userExist) {
+      throw Error('User exist');
     }
 
     const hashedPassword = await this.passwordService.hashPassword(

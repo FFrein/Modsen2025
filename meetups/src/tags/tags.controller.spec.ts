@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { MeetupService } from '../meetup/meetup.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { MeetupService } from '../meetup/meetup.service';
 
 describe('TagsController', () => {
   let controller: TagsController;

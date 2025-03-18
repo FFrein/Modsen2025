@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
 
+import { PrismaService } from '../prisma/prisma.service';
 import { PaginationDto } from './dto/pagination.dto';
 import { Meetup } from './entities/meetup.entity';
 
@@ -48,7 +48,7 @@ export class MeetupService {
   }
 
   async findMy(id: number): Promise<Array<Meetup>> {
-    return this.prisma.meetups.findMany({ where: { userId:id} });
+    return this.prisma.meetups.findMany({ where: { userId: id } });
   }
 
   async findOne(id: number): Promise<Meetup | null> {

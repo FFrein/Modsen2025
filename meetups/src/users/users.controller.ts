@@ -5,10 +5,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
 import { EApiResponses } from '../consts/swagger';
 import { AuthRequestDto } from '../dto/requestDto';
-
 import { User } from './entities/user.entity';
 
 @ApiTags('users')

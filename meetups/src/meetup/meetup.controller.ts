@@ -17,12 +17,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
+
 import { JwtAuthGuard } from '../auth/guards/jwt/jwt-auth.guard';
 import { Roles } from '../auth/guards/role/roles.decorator';
 import { RolesGuard } from '../auth/guards/role/roles.guard';
 import { EApiResponses } from '../consts/swagger';
 import { AuthRequestDto } from '../dto/requestDto';
-
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';

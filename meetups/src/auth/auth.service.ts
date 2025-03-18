@@ -22,6 +22,7 @@ export class AuthService {
       user.password,
     );
     if (compare) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
@@ -29,7 +30,11 @@ export class AuthService {
   }
 
   login(user: userDto) {
-    const payload = { username: user.username, sub: user.id, role: user.role };
+    const payload: userDto = {
+      username: user.username,
+      sub: user.id,
+      role: user.role,
+    };
 
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: process.env.JWT_ACCESS_EXPIRES || '60s',
@@ -48,7 +53,7 @@ export class AuthService {
 
   async refreshToken(token: string) {
     try {
-      const payload = this.jwtService.verify(token, {
+      const payload: userDto = this.jwtService.verify(token, {
         secret: process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
       });
       const user = await this.usersService.findOne(payload.username);

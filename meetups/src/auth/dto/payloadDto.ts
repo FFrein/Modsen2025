@@ -4,7 +4,7 @@ import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 export class userDto {
   @IsInt()
   @IsNotEmpty()
-  id!: number;
+  id?: number;
 
   @IsString()
   @IsNotEmpty()
@@ -12,8 +12,8 @@ export class userDto {
 
   @IsString()
   @IsNotEmpty()
-  role?: Role;
+  role!: Role;
 
-  @IsString()
-  sub?: string;
+  @IsInt()
+  sub?: number;
 }

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { PrismaService } from '../prisma/prisma.service';
 import { MeetupController } from './meetup.controller';
 import { MeetupService } from './meetup.service';
-import { PrismaService } from '../prisma/prisma.service';
 
 describe('MeetupController', () => {
   let controller: MeetupController;

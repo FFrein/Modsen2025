@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TagsService } from './tags.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
+import { TagsService } from './tags.service';
 
 describe('TagsService', () => {
   let service: TagsService;

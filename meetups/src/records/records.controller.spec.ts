@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AuthRequestDto } from '../dto/requestDto';
+import { PrismaService } from '../prisma/prisma.service';
 import { RecordsController } from './records.controller';
 import { RecordsService } from './records.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuthRequestDto } from '../dto/requestDto';
-import { Meetup } from 'src/meetup/entities/meetup.entity';
 
 describe('RecordsController', () => {
   let controller: RecordsController;
@@ -12,7 +11,7 @@ describe('RecordsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RecordsController],
-      providers: [RecordsService,PrismaService],
+      providers: [RecordsService, PrismaService],
     }).compile();
 
     controller = module.get<RecordsController>(RecordsController);
@@ -22,7 +21,6 @@ describe('RecordsController', () => {
     expect(controller).toBeDefined();
   });
 });
-
 
 describe('RecordsController2', () => {
   let recordsController: RecordsController;
@@ -41,10 +39,11 @@ describe('RecordsController2', () => {
         user: {
           id: 1,
           username: 'testuser',
-          role:"user"
+          role: 'user',
         },
       } as AuthRequestDto;
 
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment */
       const result = expect.arrayContaining([
         {
           id: expect.any(Number),
@@ -63,7 +62,9 @@ describe('RecordsController2', () => {
 
       //jest.spyOn(recordsService, 'findOne').mockImplementation(() => result);
 
-      expect(await recordsController.findOne(mockRequest)).toMatchObject(result);
+      expect(await recordsController.findOne(mockRequest)).toMatchObject(
+        result,
+      );
     });
   });
 });
